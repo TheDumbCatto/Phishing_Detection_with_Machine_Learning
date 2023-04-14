@@ -62,13 +62,14 @@ def generate_data_set(url):
         data_set.append(-1)
 
     # 3.Shortining_Service
-    match = re.search('bit\.ly|goo\.gl|shorte\.st|go2l\.ink|x\.co|ow\.ly|t\.co|tinyurl|tr\.im|is\.gd|cli\.gs|'
-                      'yfrog\.com|migre\.me|ff\.im|tiny\.cc|url4\.eu|twit\.ac|su\.pr|twurl\.nl|snipurl\.com|'
-                      'short\.to|BudURL\.com|ping\.fm|post\.ly|Just\.as|bkite\.com|snipr\.com|fic\.kr|loopt\.us|'
-                      'doiop\.com|short\.ie|kl\.am|wp\.me|rubyurl\.com|om\.ly|to\.ly|bit\.do|t\.co|lnkd\.in|'
-                      'db\.tt|qr\.ae|adf\.ly|goo\.gl|bitly\.com|cur\.lv|tinyurl\.com|ow\.ly|bit\.ly|ity\.im|'
-                      'q\.gs|is\.gd|po\.st|bc\.vc|twitthis\.com|u\.to|j\.mp|buzurl\.com|cutt\.us|u\.bb|yourls\.org|'
-                      'x\.co|prettylinkpro\.com|scrnch\.me|filoops\.info|vzturl\.com|qr\.net|1url\.com|tweez\.me|v\.gd|tr\.im|link\.zip\.net', url)
+    shortening_services = r'''bit\.ly|goo\.gl|shorte\.st|go2l\.ink|x\.co|ow\.ly|t\.co|tinyurl|tr\.im|is\.gd|cli\.gs|                                                                        
+                            yfrog\.com|migre\.me|ff\.im|tiny\.cc|url4\.eu|twit\.ac|su\.pr|twurl\.nl|snipurl\.com|
+                            short\.to|BudURL\.com|ping\.fm|post\.ly|Just\.as|bkite\.com|snipr\.com|fic\.kr|loopt\.us|
+                            doiop\.com|short\.ie|kl\.am|wp\.me|rubyurl\.com|om\.ly|to\.ly|bit\.do|t\.co|lnkd\.in|
+                            db\.tt|qr\.ae|adf\.ly|goo\.gl|bitly\.com|cur\.lv|tinyurl\.com|ow\.ly|bit\.ly|ity\.im|
+                            q\.gs|is\.gd|po\.st|bc\.vc|twitthis\.com|u\.to|j\.mp|buzurl\.com|cutt\.us|u\.bb|yourls\.org|
+                            x\.co|prettylinkpro\.com|scrnch\.me|filoops\.info|vzturl\.com|qr\.net|1url\.com|tweez\.me|v\.gd|tr\.im|link\.zip\.net'''
+    match = re.search(shortening_services, url)
     if match:
         data_set.append(-1)
     else:
@@ -81,14 +82,14 @@ def generate_data_set(url):
         data_set.append(1)
 
     # 5.double_slash_redirecting
-    list = [x.start(0) for x in re.finditer('//', url)]
-    if list[len(list)-1] > 6:
+    double_slash_pos_list = [x.start(0) for x in re.finditer('//', url)]
+    if double_slash_pos_list[len(double_slash_pos_list)-1] > 6:
         data_set.append(-1)
     else:
         data_set.append(1)
 
     # 6.Prefix_Suffix
-    if re.findall(r"https?://[^\-]+-[^\-]+/", url):
+    if len(re.findall(r"-", url)):
         data_set.append(-1)
     else:
         data_set.append(1)
@@ -101,6 +102,7 @@ def generate_data_set(url):
 #    else:
 #        data_set.append(-1)
 
+    #### Response time is too long ####
 #    # 8.SSLfinal_State
 #    try:
 #        if response.text:
@@ -108,6 +110,7 @@ def generate_data_set(url):
 #    except:
 #        data_set.append(-1)
 
+#    #### Response time is too long ####
     # 9.Domain_registeration_length
     expiration_date = whois_response.expiration_date
     registration_length = 0
@@ -123,7 +126,7 @@ def generate_data_set(url):
             data_set.append(1)
     except:
         data_set.append(-1)
-
+#
     # 10.Favicon
     if soup == -999:
         data_set.append(-1)
