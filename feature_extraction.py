@@ -1,10 +1,12 @@
 import ipaddress
+from os import path
 import re
 import urllib.request
 import urllib.parse
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import socket
+from pandas import read_csv
 import requests
 from googlesearch import search
 import whois
@@ -14,6 +16,7 @@ from dateutil.parser import parse as date_parse
 import math
 import aiohttp
 import asyncio
+import difflib
 
 def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
@@ -28,7 +31,7 @@ def diff_month(d1, d2):
 #    except:
 #        print('Error')
 
-def generate_data_set(url):
+def generate_data_set(url, tlds, popular_urls):
 
 #    start = time.time()
     data_set = []
@@ -69,10 +72,10 @@ def generate_data_set(url):
     except:
         data_set.append(0)
 
-    # domain_length
+    # 2a.domain_length
     data_set.append(len(domain))
 
-    # 2.URL_Length
+    # 2b.URL_Length
     data_set.append(len(url))
 #    if len(url) < 20:
 #        data_set.append(0)
@@ -81,7 +84,7 @@ def generate_data_set(url):
 #    else:
 #        data_set.append(1)
 
-    # 3.Shortining_Service
+    # 3.Shortening_Service
     shortening_services = r'''bit\.ly|goo\.gl|shorte\.st|go2l\.ink|x\.co|ow\.ly|t\.co|tinyurl|tr\.im|is\.gd|cli\.gs|                                                                        
                             yfrog\.com|migre\.me|ff\.im|tiny\.cc|url4\.eu|twit\.ac|su\.pr|twurl\.nl|snipurl\.com|
                             short\.to|BudURL\.com|ping\.fm|post\.ly|Just\.as|bkite\.com|snipr\.com|fic\.kr|loopt\.us|
@@ -110,14 +113,14 @@ def generate_data_set(url):
     else:
         data_set.append(0)
 
-    # 6.Prefix_Suffix
+    # 6.number_of_hyphen_Prefix_Suffix
     data_set.append(len(re.findall(r'-', url)))
    # if len(re.findall(r"-", url)):
    #     data_set.append(1)
    # else:
    #     data_set.append(0)
 
-    # 7.having_too_many_Sub_Domains
+    # 7.number_of_sub_Domains
     data_set.append(len(re.findall(r'\.', url)))
 #    if len(re.findall(r"\.", url)) == 1:
 #        data_set.append(0)
@@ -185,23 +188,102 @@ def generate_data_set(url):
     else:
         data_set.append(1)
 
-    # 10. Randomness of URL
-    url_tokens = re.split(r'; | \/ | \? | : | & | = | \+', url) + re.split(r'\.', urlparse(url).netloc)
+    # 10. randomness_of_URL
+    url_tokens = re.split(r';|\/|\?|:|&|=|\+', url) + re.split(r'\.', urlparse(url).netloc)
     max_randomness = 0.0
     for token in url_tokens:
+        if(len(token)==0): continue
         randomness = float(max(len(re.split(r'\D', token)), len(re.split(r'[A-Za-z0-9]', token))) * math.log(len(token), 2))
         if (randomness > max_randomness):
             max_randomness = randomness
     data_set.append(max_randomness)
 
-    # 11. Having HTML tag in URL
+    # 11. having_HTML_tag_in_URL
     unquoted_url = urllib.parse.unquote(url)
     if re.findall(r'<.*>', unquoted_url) or re.findall(r'<.*>', url):
         data_set.append(1)
     else:
         data_set.append(0)
 
+    ###
+    popular_domain_tokens = [x.split('.') for x in popular_urls]
+    brand_names = set([x[len(x)-2] for x in popular_domain_tokens])
+    ###
+    # 12. having_brand_name_in_path
+    # 13. having_brand_name_in_domain
+#
+    url_path = urlparse(url).path
 
+    found_brand_name_in_path = False
+    found_brand_name_in_domain = False
+    for brand_name in brand_names:
+        if brand_name + '.' in url_path:
+            found_brand_name_in_path = True
+        if re.findall(re.escape(brand_name) + r'\.|' + re.escape(brand_name), domain):
+            found_brand_name_in_domain = True
+    if (found_brand_name_in_path): data_set.append(1)
+    else: data_set.append(0)
+    if (found_brand_name_in_domain): data_set.append(1)
+    else: data_set.append(0)
+
+#    # 15. misspelled_brand_name_in_path
+#    # 16. misspelled_brand_name_in_domain
+#    fake_brand_name_domain_score = 0.0
+#    fake_brand_name_path_score = 0.0
+#    for word in url_tokens:
+#        # calculate similarity score between word and pre-defined words
+#        scores = difflib.get_close_matches(word, brand_names, n=1, cutoff=0.5)
+#        if scores:
+#            score = difflib.SequenceMatcher(None, word, scores[0]).ratio()
+#            if word in domain and score > fake_brand_name_domain_score: fake_brand_name_domain_score = score
+#            if word in url_path and score > fake_brand_name_path_score: fake_brand_name_path_score = score
+##
+#    data_set.append(fake_brand_name_domain_score) 
+#    data_set.append(fake_brand_name_path_score)
+
+    # 17. entropy_of_special_characters
+    nan_list = ['/','-','.','=',';','?','_','%','@','&']
+    entropy = 0
+    for nan_char in nan_list:
+        total_characters = len(url)
+        character_count = url.count(nan_char)
+    
+        if character_count == 0: continue
+        character_probability = character_count / total_characters
+        entropy = -character_probability * math.log2(character_probability)
+    
+    data_set.append(entropy)
+#
+    # 18. having_suspicious_words_in_URL
+    sus_word_list = ['security' ,'login', 'signin', 'bank', 'account', 'update', 'include', 'webs', 'online']
+    found_sus_word = False
+    for sus_word in sus_word_list:
+        if sus_word in url:
+            data_set.append(1)
+            found_sus_word = True
+            break
+    if not found_sus_word:
+        data_set.append(0)
+
+    # 19. having_TLD_in_domain_name
+    domain_tokens = domain.split('.')
+    
+    if any(tlds) in domain_tokens[0:len(domain_tokens)]:
+        data_set.append(1)
+    else: data_set.append(0)
+
+    # 20. having_more_than_1_TLD_in_URL
+
+    tld_count = 0
+    for tld in tlds:
+        if tld in url:
+            tld_count += 1
+    if tld_count > 1:
+        data_set.append(1)
+    else:
+        data_set.append(0)
+
+    return data_set
 
 #    # 13. Request_URL
 #    i = 0
@@ -471,5 +553,4 @@ def generate_data_set(url):
     #print(data_set)
 #    end = time.time()
 #    print(end - start)
-    return data_set
     #return 1
