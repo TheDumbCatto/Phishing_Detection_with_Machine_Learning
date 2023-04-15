@@ -66,11 +66,11 @@ def generate_data_set(url):
         ipaddress.ip_address(domain)
         data_set.append(1)
     except:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 2.URL_Length
     if len(url) < 20:
-        data_set.append(-1)
+        data_set.append(0)
     elif len(url) >= 20 and len(url) <= 30:
         data_set.append(0)
     else:
@@ -88,32 +88,32 @@ def generate_data_set(url):
     if match:
         data_set.append(1)
     else:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 4.having_At_Symbol
     if re.findall("@", url):
         data_set.append(1)
     else:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 5.double_slash_redirecting
     double_slash_pos_list = [x.start(0) for x in re.finditer('//', url)]
     if ( not double_slash_pos_list):
-        data_set.append(-1)
+        data_set.append(0)
     elif double_slash_pos_list[len(double_slash_pos_list)-1] > 6:
         data_set.append(1)
     else:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 6.Prefix_Suffix
     if len(re.findall(r"-", url)):
         data_set.append(1)
     else:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 7.having_too_many_Sub_Domains
     if len(re.findall(r"\.", url)) == 1:
-        data_set.append(-1)
+        data_set.append(0)
     elif len(re.findall(r"\.", url)) == 2:
         data_set.append(0)
     else:
@@ -168,13 +168,13 @@ def generate_data_set(url):
         if port:
             data_set.append(1)
         else:
-            data_set.append(-1)
+            data_set.append(0)
     except:
-        data_set.append(-1)
+        data_set.append(0)
 
     # 12. HTTPS_token
     if re.findall(r"https", domain):
-        data_set.append(-1)
+        data_set.append(0)
     else:
         data_set.append(1)
 
