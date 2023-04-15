@@ -1,4 +1,5 @@
 domain,having_IP_address,domain_length,URL_length,use_shortening_service,having_At_symbol,having_double_slash_redirecting,number_of_dashes,number_of_sub_domains,using_weird_ports,having_https_token_in_URL,randomness_of_URL,having_HTML_tag_in_URL,having_brand_name_in_path,having_brand_name_in_domain,entropy_of_special_characters,having_suspicious_words_in_URL,having_TLD_in_domain_name,having_more_than_1_TLD_in_URL,result
+https://google.com,0,0,0,0,0,0,0,0,0,1,36.541209043760986,0,0,1,0.23166250008012845,0,0,0,0
 http://newmatdesign.ro/wp-admin/wewe/YAHOO/ya.html,0,0,0,0,0,0,0,0,0,1,62.5102495297363,0,0,1,0.185754247590989,0,0,0,1
 http://ca.linkedin.com/directory/people/ca/pouliot.html,0,0,1,0,0,0,0,0,0,1,62.5102495297363,0,1,1,0.22889439342564566,0,0,0,0
 http://www.ccent.com.au/index.php?option=com_mailto&tmpl=component&link=aHR0cDovL3d3dy5jY2VudC5jb20uYXUvaW5kZXgucGhwP29wdGlvbj1jb21fY29udGVudCZ2aWV3PWFydGljbGUmaWQ9MTg0Ondob2xlLWxvdHRhLWxvdmUtcmV2aWV3JmNhdGlkPTQ0Ondob2xlLWxvdHRhLWxvdmUmSXRlbWlkPTIwNg==,0,0,1,1,0,0,0,0,0,1,1338.1562841429852,0,0,1,0.05537523748809457,0,0,0,1
