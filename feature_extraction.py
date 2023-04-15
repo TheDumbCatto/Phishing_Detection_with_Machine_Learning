@@ -17,19 +17,19 @@ import asyncio
 def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
-async def generate_dataset_web_content(url):
-    try:
-        async with aiohttp.ClientSession(conn_timeout=0.3, read_timeout=0.5) as session:
-            async with session.get(url) as response:
-                web_content = await response.text()
-                soup = BeautifulSoup(web_content, 'html.parser')
-                print('Doing shit')
-    except:
-        print('Error')
+#async def generate_dataset_web_content(url):
+#    try:
+#        async with aiohttp.ClientSession(conn_timeout=0.3, read_timeout=0.5) as session:
+#            async with session.get(url) as response:
+#                web_content = await response.text()
+#                soup = BeautifulSoup(web_content, 'html.parser')
+#                print('Doing shit')
+#    except:
+#        print('Error')
 
 def generate_data_set(url):
 
-    start = time.time()
+#    start = time.time()
     data_set = []
     data_set.append(url)
     domain = urlparse(url).netloc
@@ -453,7 +453,7 @@ def generate_data_set(url):
 #    except:
 #        print('Connection problem. Please check your internet connection')
     #print(data_set)
-    end = time.time()
-    print(end - start)
+#    end = time.time()
+#    print(end - start)
     return data_set
     #return 1

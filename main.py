@@ -1,3 +1,4 @@
+from os import wait
 import feature_extraction
 import json, csv
 from pandas import read_csv
@@ -30,6 +31,7 @@ for legit in tqdm(legit_list, total=len(legit_list)):
     data_to_append.append(-1)
     dataset.append(data_to_append)
     
+
 
 with open('dataset/new_dataset.csv', 'w') as f:
     write = csv.writer(f)
