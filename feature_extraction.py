@@ -1,6 +1,7 @@
 import ipaddress
 import re
 import urllib.request
+import urllib.parse
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import socket
@@ -67,6 +68,9 @@ def generate_data_set(url):
         data_set.append(1)
     except:
         data_set.append(0)
+
+    # domain_length
+    data_set.append(len(domain))
 
     # 2.URL_Length
     data_set.append(len(url))
@@ -165,30 +169,39 @@ def generate_data_set(url):
 #        except StopIteration:
 #            pass
 
-    # 11. port
+    # 8. using weird ports
     try:
         port = domain.split(":")[1]
-        if port:
+        if port and (int(port)!=80 and int(port)!=443):
             data_set.append(1)
         else:
             data_set.append(0)
     except:
         data_set.append(0)
 
-    # 12. HTTPS_token
+    # 9. HTTPS_token
     if re.findall(r"https", domain):
         data_set.append(0)
     else:
         data_set.append(1)
 
-    # Randomness of URL
+    # 10. Randomness of URL
     url_tokens = re.split(r'; | \/ | \? | : | & | = | \+', url) + re.split(r'\.', urlparse(url).netloc)
     max_randomness = 0.0
     for token in url_tokens:
-        randomness = float(max(len(re.split(r'\d', token)), len(re.split(r'[^A-Za-z0-9]', token))) * math.log(len(re.split(r'[A-Za-z]', token)), 2))
+        randomness = float(max(len(re.split(r'\D', token)), len(re.split(r'[A-Za-z0-9]', token))) * math.log(len(token), 2))
         if (randomness > max_randomness):
             max_randomness = randomness
     data_set.append(max_randomness)
+
+    # 11. Having HTML tag in URL
+    unquoted_url = urllib.parse.unquote(url)
+    if re.findall(r'<.*>', unquoted_url) or re.findall(r'<.*>', url):
+        data_set.append(1)
+    else:
+        data_set.append(0)
+
+
 
 #    # 13. Request_URL
 #    i = 0

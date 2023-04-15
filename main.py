@@ -15,45 +15,48 @@ data = read_csv('dataset/majestic_million.csv')
 legit_list = data['Domain'].tolist()
 
 dataset = []
-for phish in tqdm(phishing_list, total=len(phishing_list)):
-    data_to_append = feature_extraction.generate_data_set(phish)
-    data_to_append.append(1)
-    dataset.append(data_to_append)
-    #print(type(feature_extraction.generate_data_set(phish).append(1)))
-  
-    #print(type(feature_extraction.generate_data_set(phish)))
-
-#for data in dataset[0:len(phishing_list)]:
-#    data.append(1)
-    
-for legit in tqdm(legit_list, total=len(legit_list)):
-    data_to_append = feature_extraction.generate_data_set(legit)
-    data_to_append.append(0)
-    dataset.append(data_to_append)
+#for phish in tqdm(phishing_list, total=len(phishing_list)):
+#    data_to_append = feature_extraction.generate_data_set(phish)
+#    data_to_append.append(1)
+#    dataset.append(data_to_append)
+#    #print(type(feature_extraction.generate_data_set(phish).append(1)))
+#  
+#    #print(type(feature_extraction.generate_data_set(phish)))
+#
+##for data in dataset[0:len(phishing_list)]:
+##    data.append(1)
+#    
+#for legit in tqdm(legit_list, total=len(legit_list)):
+#    data_to_append = feature_extraction.generate_data_set(legit)
+#    data_to_append.append(0)
+#    dataset.append(data_to_append)
     
 organizer_feature_train = []
-organizer_dataset_train = read_csv('dataset/train.csv')
-train_urls = organizer_dataset_train['domain'].tolist()
+organizer_dataset_train = read_csv('dataset/labeled_public_test_hackathon_vcs_2023.csv')
+train_urls = organizer_dataset_train['x'].tolist()
+labels = organizer_dataset_train['y'].tolist()
 i=0
 for train_url in train_urls:
     data_to_append = feature_extraction.generate_data_set(train_url)
-    if (i==0 or i in range(3,6) or i in range(8,10)):
-        data_to_append.append(1)
-    else:
-        data_to_append.append(0)
+    data_to_append.append(labels[i])
     organizer_feature_train.append(data_to_append)
     i+=1
 
-with open('dataset/organizer_feature_train.csv', 'w') as f:
+#with open('dataset/organizer_feature_train.csv', 'w') as f:
+#    write = csv.writer(f)
+#    write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
+#    for data in tqdm(organizer_feature_train, total=len(organizer_feature_train)):
+#        write.writerow(data)
+#
+with open('dataset/labeled_public_test_hackathon_vcs_2023_feature.csv', 'w') as f:
     write = csv.writer(f)
     write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
     for data in tqdm(organizer_feature_train, total=len(organizer_feature_train)):
         write.writerow(data)
-
-with open('dataset/new_dataset.csv', 'w') as f:
-    write = csv.writer(f)
-    write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
-    for data in tqdm(dataset, total=len(dataset)):
-        write.writerow(data)
+#with open('dataset/new_dataset.csv', 'w') as f:
+#    write = csv.writer(f)
+#    write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
+#    for data in tqdm(dataset, total=len(dataset)):
+#        write.writerow(data)
         
 #feature_extraction.generate_data_set(url)
