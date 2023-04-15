@@ -12,7 +12,7 @@ with open('dataset/phishtank.json') as f:
         phishing_list.append(_object['url'])
 
 data = read_csv('dataset/majestic_million.csv')
-legit_list = data['Domain'].tolist()[0:120000]
+legit_list = data['Domain'].tolist()[0:160000]
 tlds = []
 with open('tlds.txt', 'r') as f:
     tlds = f.readlines()
