@@ -12,7 +12,7 @@ with open('dataset/phishtank.json') as f:
         phishing_list.append(_object['url'])
 
 data = read_csv('dataset/majestic_million.csv')
-legit_list = data['Domain'].tolist()
+legit_list = data['Domain'].tolist()[0:60000]
 tlds = []
 with open('tlds.txt', 'r') as f:
     tlds = f.readlines()
@@ -52,7 +52,7 @@ with open('dataset/feature_labeled_public_test_hackathon_vcs_2023_feature.csv', 
     write.writerow(fields)
     for data in tqdm(organizer_feature_train, total=len(organizer_feature_train)):
         write.writerow(data)
-with open('dataset/new_dataset.csv', 'w') as f:
+with open('dataset/balanced_dataset.csv', 'w') as f:
     write = csv.writer(f)
     write.writerow(fields)
     for data in tqdm(dataset, total=len(dataset)):

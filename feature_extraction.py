@@ -267,10 +267,14 @@ def generate_data_set(url, tlds, popular_urls):
 
     # 19. having_TLD_in_domain_name
     domain_tokens = domain.split('.')
-    
-    if any(tlds) in domain_tokens[0:len(domain_tokens)]:
-        data_set.append(1)
-    else: data_set.append(0)
+    found_TLD_in_domain_name = False
+    for tld in tlds:
+        if tld in domain_tokens[0:len(domain_tokens)-1]:
+            data_set.append(1)
+            found_TLD_in_domain_name = True
+            break
+
+    if (not found_TLD_in_domain_name): data_set.append(0)
 
     # 20. having_more_than_1_TLD_in_URL
 
