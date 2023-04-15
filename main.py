@@ -10,7 +10,7 @@ with open('dataset/phishtank.json') as f:
     object_list = json.load(f)
     i=1;
     for _object in object_list:
-        if(i==5001): break
+        if(i==3001): break
         phishing_list.append(_object['url'])
         i+=1
 #additional_phishing_list = []
@@ -19,7 +19,7 @@ with open('dataset/phishtank.json') as f:
 #phishing_list += additional_phishing_list
 
 data = read_csv('dataset/majestic_million.csv')
-legit_list = data['Domain'].tolist()[0:5000]
+legit_list = data['Domain'].tolist()[0:9000]
 tlds = []
 with open('tlds.txt', 'r') as f:
     tlds = f.readlines()
@@ -59,7 +59,7 @@ fields = ['domain','having_IP_address','domain_length','URL_length','use_shorten
 #    write.writerow(fields)
 #    for data in tqdm(organizer_feature_train, total=len(organizer_feature_train)):
 #        write.writerow(data)
-with open('dataset/5kphish_5kclean_dataset.csv', 'w') as f:
+with open('dataset/3kphish_9kclean_dataset.csv', 'w') as f:
     write = csv.writer(f)
     write.writerow(fields)
     for data in tqdm(dataset, total=len(dataset)):
