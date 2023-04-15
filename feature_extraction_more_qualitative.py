@@ -122,7 +122,7 @@ def generate_data_set(url, tlds, popular_urls):
 
     # 6.having_too_many_hyphens_in_domain
     all_hyphens = re.findall(r'-', url)
-    if len(all_hyphens) > 2:
+    if len(all_hyphens) > 1:
         data_set.append(1)
     else: data_set.append(0)
    # data_set.append(len(re.findall(r'-', url)))
@@ -132,11 +132,7 @@ def generate_data_set(url, tlds, popular_urls):
    #     data_set.append(0)
 
     # 7.number_of_sub_Domains
-    num_of_subdomains = len(re.findall(r'\.', url))
-    if num_of_subdomains > 3:
-        data_set.append(1)
-    else:
-        data_set.append(0)
+    data_set.append(len(re.findall(r'\.', url)))
 #    if len(re.findall(r"\.", url)) == 1:
 #        data_set.append(0)
 #    elif len(re.findall(r"\.", url)) == 2:
@@ -291,13 +287,13 @@ def generate_data_set(url, tlds, popular_urls):
 
     if (not found_TLD_in_domain_name): data_set.append(0)
 
-    # 20. having_more_than_2_TLD_in_URL
+    # 20. having_more_than_1_TLD_in_URL
 
     tld_count = 0
     for tld in tlds:
         if tld in url:
             tld_count += 1
-    if tld_count > 2:
+    if tld_count > 1:
         data_set.append(1)
     else:
         data_set.append(0)
