@@ -132,9 +132,11 @@ def generate_data_set(url, tlds, popular_urls):
    #     data_set.append(0)
 
     # 7.number_of_sub_Domains
-    data_set.append(len(re.findall(r'\.', url)))
-#    if len(re.findall(r"\.", url)) == 1:
-#        data_set.append(0)
+    num_of_subdomains = len(re.findall(r'\.', domain))
+    if num_of_subdomains > 4:
+        data_set.append(1)
+    else:
+        data_set.append(0)
 #    elif len(re.findall(r"\.", url)) == 2:
 #        data_set.append(0)
 #    else:

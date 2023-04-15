@@ -6,13 +6,6 @@
     "author": "DoubleRockets",
     "action":{
         "default_popup": "index.html",
-        "default_title": "Phishing Detection DBRKs",
-        "scripts": ["script.js"]
+        "default_title": "Phishing Detection DBRKs"
     }
-//    "content_security_policy": {
-//        "extension_pages": "script-src 'self' 'sha256-W0dSzz11/IkMR7hJ4AlU7xQc+K5QEll/N0XQNL+3UcDVye9nUMi8=';"
-//    }
-//    "content_security_policy": {
-//        "extension_pages": "default-src 'self'; script-src 'sha256-IkMR7hJ4AlU7xQc+K5QEll/N0XQNL+3UcDVye9nUMi8='"
-//    }
 }
