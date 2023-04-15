@@ -1,4 +1,4 @@
 document.getElementById('submitButton').addEventListener("click", myFunc);
 function myFunc(){
-    console.log('I\'m here');
+    document.getElementById('helloWorld').innerHTML = "Hello world fr";
 }
