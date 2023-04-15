@@ -69,12 +69,13 @@ def generate_data_set(url):
         data_set.append(0)
 
     # 2.URL_Length
-    if len(url) < 20:
-        data_set.append(0)
-    elif len(url) >= 20 and len(url) <= 30:
-        data_set.append(0)
-    else:
-        data_set.append(1)
+    data_set.append(len(url))
+#    if len(url) < 20:
+#        data_set.append(0)
+#    elif len(url) >= 20 and len(url) <= 30:
+#        data_set.append(0)
+#    else:
+#        data_set.append(1)
 
     # 3.Shortining_Service
     shortening_services = r'''bit\.ly|goo\.gl|shorte\.st|go2l\.ink|x\.co|ow\.ly|t\.co|tinyurl|tr\.im|is\.gd|cli\.gs|                                                                        
@@ -106,18 +107,20 @@ def generate_data_set(url):
         data_set.append(0)
 
     # 6.Prefix_Suffix
-    if len(re.findall(r"-", url)):
-        data_set.append(1)
-    else:
-        data_set.append(0)
+    data_set.append(len(re.findall(r'-', url)))
+   # if len(re.findall(r"-", url)):
+   #     data_set.append(1)
+   # else:
+   #     data_set.append(0)
 
     # 7.having_too_many_Sub_Domains
-    if len(re.findall(r"\.", url)) == 1:
-        data_set.append(0)
-    elif len(re.findall(r"\.", url)) == 2:
-        data_set.append(0)
-    else:
-        data_set.append(1)
+    data_set.append(len(re.findall(r'\.', url)))
+#    if len(re.findall(r"\.", url)) == 1:
+#        data_set.append(0)
+#    elif len(re.findall(r"\.", url)) == 2:
+#        data_set.append(0)
+#    else:
+#        data_set.append(1)
 
     #### Response time is too long ####
 #    # 8.SSLfinal_State

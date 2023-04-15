@@ -28,7 +28,7 @@ for phish in tqdm(phishing_list, total=len(phishing_list)):
     
 for legit in tqdm(legit_list, total=len(legit_list)):
     data_to_append = feature_extraction.generate_data_set(legit)
-    data_to_append.append(-1)
+    data_to_append.append(0)
     dataset.append(data_to_append)
     
 organizer_feature_train = []
