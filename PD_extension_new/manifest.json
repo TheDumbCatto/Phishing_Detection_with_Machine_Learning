@@ -1,0 +1,11 @@
+{
+    "name": "Phishing Detection DBRKs v1",
+    "version": "1.0.0",
+    "description": "",
+    "manifest_version": 3,
+    "author": "DoubleRockets",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "Phishing Detection DBRKs"
+    }
+}
