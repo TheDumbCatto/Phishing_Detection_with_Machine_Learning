@@ -46,11 +46,13 @@ for train_url in train_urls:
 
 with open('dataset/organizer_feature_train.csv', 'w') as f:
     write = csv.writer(f)
+    write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
     for data in tqdm(organizer_feature_train, total=len(organizer_feature_train)):
         write.writerow(data)
 
 with open('dataset/new_dataset.csv', 'w') as f:
     write = csv.writer(f)
+    write.writerow(['domain','having_IP_address','URL_length','use_shortening_service','having_At_symbol','having_double_slash_redirecting','number_of_dash_prefix_suffix','number_of_sub_domains','having_port_in_URL','having_https_token_in_URL','randomness_of_URL','result'])
     for data in tqdm(dataset, total=len(dataset)):
         write.writerow(data)
         

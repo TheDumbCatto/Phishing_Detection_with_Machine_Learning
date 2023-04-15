@@ -1,3 +1,4 @@
+domain,having_IP_address,URL_length,use_shortening_service,having_At_symbol,having_double_slash_redirecting,number_of_dash_prefix_suffix,number_of_sub_domains,having_port_in_URL,having_https_token_in_URL,randomness_of_URL,result
 http://secure.runescape.com.d.weblagon.loginform.com/mod/?/&=&ssl=0,0,67,0,0,0,0,6,0,1,101.58941141594504,1
 http://wn.com/1987_Rugby_World_Cup,0,34,0,0,0,0,1,0,1,40.71205760451312,0
 http://rediff.com/sports/report/french-open-2011-roger-federer-monfils-murray-djokovic/20110601.htm,0,99,0,0,0,7,2,0,1,104.8887250245193,0
