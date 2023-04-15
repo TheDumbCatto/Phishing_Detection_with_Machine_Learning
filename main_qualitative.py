@@ -1,5 +1,5 @@
 from os import wait
-import feature_extraction
+import feature_extraction_more_qualitative
 import json, csv
 from pandas import read_csv
 from tqdm import tqdm
@@ -20,12 +20,12 @@ with open('tlds.txt', 'r') as f:
 popular_urls = read_csv('dataset/majestic_million.csv')['Domain'].tolist()[0:201]
 dataset = []
 for phish in tqdm(phishing_list, total=len(phishing_list)):
-    data_to_append = feature_extraction.generate_data_set(phish, tlds, popular_urls)
+    data_to_append = feature_extraction_more_qualitative.generate_data_set(phish, tlds, popular_urls)
     data_to_append.append(1)
     dataset.append(data_to_append)
     
 for legit in tqdm(legit_list, total=len(legit_list)):
-    data_to_append = feature_extraction.generate_data_set(legit, tlds, popular_urls)
+    data_to_append = feature_extraction_more_qualitative.generate_data_set(legit, tlds, popular_urls)
     data_to_append.append(0)
     dataset.append(data_to_append)
     
@@ -35,7 +35,7 @@ train_urls = organizer_dataset_train['x'].tolist()
 labels = organizer_dataset_train['y'].tolist()
 i=0
 for train_url in train_urls:
-    data_to_append = feature_extraction.generate_data_set(train_url, tlds, popular_urls)
+    data_to_append = feature_extraction_more_qualitative.generate_data_set(train_url, tlds, popular_urls)
     data_to_append.append(labels[i])
     organizer_feature_train.append(data_to_append)
     i+=1
