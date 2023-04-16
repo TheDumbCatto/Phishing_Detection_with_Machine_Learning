@@ -64,18 +64,21 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
     
         const req = new XMLHttpRequest();
-        const baseUrl = "http://192.168.120.236:8090/phishing/detection";
+         const baseUrl = "http://192.168.120.236:8090/phishing/detection";
+        //const baseUrl = "http://10.20.2.65:8090/phishing/detection";
         //const urlParams = `email=${email}&password=${pwd}`;
     
         req.open("POST", baseUrl, true);
-        req.setRequestHeader("Content-type", "application/json")
-        req.setRequestHeader("Origin", "*");
+        req.setRequestHeader("Content-type", "application/json");
+        // req.setRequestHeader("Origin", "*");
         req.send(requestBody);
-    
+        document.getElementById('helloWorld').innerHTML = "Sup";
         req.onreadystatechange = function() { // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("Got response 200!");
             }
+            response = this.response;
+            console.log(response);
         }
     });
 });
