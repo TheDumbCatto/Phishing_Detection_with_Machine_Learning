@@ -6,6 +6,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+		<div id="helloWorld"></div>
         <div class="container mt-3" style="width: 450px; height: 500px;">
     	<div style="width: 450px; text-align: center;">
 	        <img src="DR_fit_cut.svg"/>
@@ -14,15 +15,41 @@
   	        <rect width="450" height="1"
       		style="fill:white;stroke:white;stroke-width:1;opacity:0.5" />
 	    </svg>
-    	    <form style="text-align: center;" id="myForm" action="http://localhost:8090/phishing/detect" method="POST">
-    		<label for="url"></label>
-	    	<input type="text" id="in_url" name="url"
-		        style="border-radius: 50px 50px 50px 50px; text-align: center;"
-    	                placeholder = "is fish bro?">
-    		<br>
-	    	<br>
-            <button id="submitButton" type="submit">
+    	    <!-- <form style="text-align: center;" id="myForm" action="http://192.168.120.236:8090/phishing/detect" method="POST"> -->
+			<form style="text-align: center;" id="myForm">
+				<label for="url"></label>
+				<input type="text" id="in_url" name="url"
+					style="border-radius: 50px 50px 50px 50px; text-align: center;"
+							placeholder = "is fish bro?">
+				<br>
+				<br>
+				<button id="submitButton" value="OOOO">
     	    </form>
         </div>
     </body>
+	<script src="./script.js">
+		function sendPostRequest() {
+			const headers = new Headers();
+			headers.append('Content-Type', 'application/json');
+
+			// create the request body
+			const requestBody = JSON.stringify({
+			'url': 'god damn man',
+			'pred': 'pred',
+			'proba': 'proba'
+			});
+			try {
+			const response = fetch('http://192.168.120.236:8090/phishing/detect', {
+				method: 'POST',
+				headers: headers,
+				body: requestBody
+			});
+			
+			// handle the response
+			} catch (error) {
+			// handle the error
+			}
+		}
+
+	</script>
 </html>

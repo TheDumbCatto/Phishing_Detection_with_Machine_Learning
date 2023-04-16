@@ -8,4 +8,10 @@
         "default_popup": "index.html",
         "default_title": "Phishing Detection DBRKs"
     }
+    // "content_scripts": [
+    //     {
+    //       "matches": ["http://google.com/*"],
+    //       "js": ["script.js"]
+    //     }
+    // ]
 }
